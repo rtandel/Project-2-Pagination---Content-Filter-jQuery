@@ -27,6 +27,8 @@ while ($pages !== $pageCreation) {
   $(".pagination ul").append("<li><a class=\"page_"+$pageCreation+"\">"+$pageCreation+"</a></li>");
 }
 
+
+
 // Initially hides all of the list items.
 function hideAll() {
   $list.each(function() {
@@ -42,6 +44,7 @@ correctStudents();
 $(".pagination a").click(function() {
   $(".pagination .active").removeClass("active");
   $(this).addClass("active");
+  $pageNumber = $(this).text();
   correctStudents();
 });
 
@@ -85,12 +88,32 @@ function correctStudents() {
 
 $(".page-header").append("<div class=\"student-search\">" +
                           "<input placeholder=\"Search for students...\">" +
-                          "<button>Search</button></div>");
+                          "<button class=\"search-button\">Search</button></div>");
 
-$(".student-search input").change(function() {
-  hideAll();
-  console.log("it worked!");
-  var $searchText = $(this).text();
-  
-  console.log($index);
+$(".search-button").click(function() {
+  var $searchText = $(".student-search input").val();
+
+    // for (var i = 1; i < $students; i++) {
+    //   if ($(".student_"+ i + " h3").text() == $searchText) {
+    //     hideAll();
+    //     $(".student_" + i).show();
+    //     break;
+    //   }
+    // }
+    // for (var i = 1; i < $students; i++) {
+    //   if ($(".student_"+ i +" .email").text() === $searchText) {
+    //     hideAll();
+    //     $(".student_" + i).show();
+    //     break;
+    //   }
+    // }
+    var $counter = 0;
+    hideAll();
+    $list.each(function() {
+      $("li:contains("+ $searchText+")").show();
+    });
+
+
+
+
 });
