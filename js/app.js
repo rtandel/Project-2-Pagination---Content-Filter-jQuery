@@ -59,8 +59,10 @@ function pageCreate() {
     $(this).addClass("active");
     console.log($pages);
     var $selected = Number($(this).text());
-    if ($searchText === '') {
+    console.log($selected)
+    if ($searchText === "") {
       paginateInitial($selected);
+      console.log("this is weird");
     } else {
       paginateSearch($selected);
     }
@@ -69,8 +71,8 @@ function pageCreate() {
 
 // Initially calls the functions.
 hideAll();
-pageCreate();
 $(".pagination li:first").addClass("active");
+pageCreate();
 paginateInitial(1);
 
 
@@ -99,7 +101,7 @@ function paginateInitial(x) {
 function paginateSearch(y) {
   hideAll();
   var $index;                           // The place in the array.
-  pageCreate($pages);                   // Creates the pages.
+                  // Creates the pages.
   var $page = y;                        // Specifies the page number
   var $currentMax = 10 * $page - 1;     // Sets the max based on which page.
   var $min = $currentMax - 9;           // Min calculated based on the max.
@@ -108,14 +110,16 @@ function paginateSearch(y) {
   if ($page === $pages.length) {
     $currentMax = $foundStudentsArray.length;
   }
+
   //
   if ($(".pagination .active").text() === ""+$page+"") {
     hideAll();
     for (var i = $min; i <= $currentMax; i++) {
       $index = $foundStudentsArray[i];
-      console.log($min);
+      console.log($page);
       $('.student-item').eq($index).show();
     }
+    pageCreate($pages);
   }
 }
 
@@ -124,7 +128,8 @@ $(".page-header").append("<div class=\"student-search\">" +
                           "<input placeholder=\"Search for students...\">" +
                           "<button class=\"search-button\">Search</button></div>");
 // The text input from the user.
-var $searchText = $(".student-search input");
+var $searchText = $(".student-search input").val();
+var $searchChange = $(".student-search input");
 
 // Function called when the search button is clicked.
 $(".search-button").click(function() {
@@ -151,6 +156,6 @@ $(".search-button").click(function() {
 });
 
 // Triggers the click function when the input text is changed
-$($searchText).change(function() {
+$($searchChange).change(function() {
   $(".search-button").trigger("click");
 });
