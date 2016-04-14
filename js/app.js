@@ -44,7 +44,7 @@ function pageCreate() {
     $(".pagination ul").empty();
   }
   $pageCreation = 0;       // counter to stop the while loop when it reaches
-                           // the correct amount of page numbers.
+                           // the correct amount of page numbers
   console.log($pages);
   // Creates the correct number of pages.
   while ($pages !== $pageCreation) {
@@ -59,7 +59,11 @@ function pageCreate() {
     $(this).addClass("active");
     console.log($pages);
     var $selected = Number($(this).text());
-    paginateInitial($selected);
+    if ($searchText === '') {
+      paginateInitial($selected);
+    } else {
+      paginateSearch($selected);
+    }
   });
 }
 
