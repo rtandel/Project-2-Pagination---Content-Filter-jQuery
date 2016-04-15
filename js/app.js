@@ -35,6 +35,12 @@ $pages = Math.ceil($students / $studentLimit);
 // appends the div and the unordered list to the page
 $(".page").append("<div class=\"pagination\"><ul></ul></div>");
 
+// Initially calls the functions.
+hideAll();
+$(".pagination li:first").addClass("active");
+pageCreate();
+paginateInitial(1);
+
  // Provides a counter to create the right number of pages.
 // Creates the list items for each page.
 // This also sets the action listener for the pages.
@@ -43,7 +49,7 @@ function pageCreate() {
   if ($(".pagination ul").length !== 0) {
     $(".pagination ul").empty();
   }
-  $pageCreation = 0;       // counter to stop the while loop when it reaches
+  var $pageCreation = 0;       // counter to stop the while loop when it reaches
                            // the correct amount of page numbers
   console.log($pages);
   // Creates the correct number of pages.
@@ -62,19 +68,11 @@ function pageCreate() {
     console.log($selected)
     if ($searchText === "") {
       paginateInitial($selected);
-      console.log("this is weird");
     } else {
       paginateSearch($selected);
     }
   });
 }
-
-// Initially calls the functions.
-hideAll();
-$(".pagination li:first").addClass("active");
-pageCreate();
-paginateInitial(1);
-
 
 // pagination for the initial items.
 function paginateInitial(x) {
@@ -92,10 +90,16 @@ function paginateInitial(x) {
         hideAll();
         for (var i = $min; i <= $currentMax; i++) {
           console.log($min);
-          $('.student-item').eq(i).show();
+            $('.student-item').eq(i).fadeIn("fast", function() {
+                // finished
+            });
         }
       }
 }
+
+// Sorry message for when no students were found
+$(".page").append("<p class=\"sorry\">Sorry, no students found...</p>");
+$(".sorry").hide();
 
 // pagination for the search items.
 function paginateSearch(y) {
@@ -111,15 +115,23 @@ function paginateSearch(y) {
     $currentMax = $foundStudentsArray.length;
   }
 
-  //
+  // If no users students were found.
+  if ($foundStudentsArray.length === 0) {
+    $(".sorry").show();
+  } else {
+    $(".sorry").hide();
+  }
+
   if ($(".pagination .active").text() === ""+$page+"") {
     hideAll();
     for (var i = $min; i <= $currentMax; i++) {
       $index = $foundStudentsArray[i];
       console.log($page);
-      $('.student-item').eq($index).show();
+      $('.student-item').eq($index).fadeIn("fast", function() {
+        // finished.
+      });
     }
-    pageCreate($pages);
+    pageCreate($page);
   }
 }
 
@@ -155,7 +167,8 @@ $(".search-button").click(function() {
     paginateSearch($(".pagination .active").text());
 });
 
-// Triggers the click function when the input text is changed
-$($searchChange).change(function() {
+// Triggers the click function when the user lifts up the key
+// on the keyboard.
+$($searchChange).keyup(function() {
   $(".search-button").trigger("click");
 });
