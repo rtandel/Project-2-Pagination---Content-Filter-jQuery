@@ -44,6 +44,7 @@ paginateInitial(1);
  // Provides a counter to create the right number of pages.
 // Creates the list items for each page.
 // This also sets the action listener for the pages.
+var $item;
 function pageCreate() {
   // If a page list already exists.
   if ($(".pagination ul").length !== 0) {
@@ -56,13 +57,17 @@ function pageCreate() {
   while ($pages !== $pageCreation) {
     $pageCreation++;
     $(".pagination ul").append("<li><a>"+$pageCreation+"</a></li>");
-    $(".pagination li:first").addClass("active");
+    $(".pagination li a").first().addClass("active");
     console.log($pageCreation);
   }
+    $(".pagination li a:target").addClass("active");
+
   // Specifies the action listener each time this function is called.
   $(".pagination a").click(function() {
-    $(".pagination .active").removeClass("active");
+    $(".pagination a").removeClass("active");
     $(this).addClass("active");
+    console.log(this);
+    $item = $(this);
     console.log($pages);
     var $selected = Number($(this).text());
     console.log($selected)
@@ -114,14 +119,12 @@ function paginateSearch(y) {
   if ($page === $pages.length) {
     $currentMax = $foundStudentsArray.length;
   }
-
   // If no users students were found.
   if ($foundStudentsArray.length === 0) {
     $(".sorry").show();
   } else {
     $(".sorry").hide();
   }
-
   if ($(".pagination .active").text() === ""+$page+"") {
     hideAll();
     for (var i = $min; i <= $currentMax; i++) {
@@ -131,8 +134,8 @@ function paginateSearch(y) {
         // finished.
       });
     }
-    pageCreate($page);
   }
+
 }
 
 // Append the search div, search box, and button.
@@ -156,8 +159,8 @@ $(".search-button").click(function() {
     hideAll();              // Hides the items before comparing.
     var $counter;           // Keeps track of the items found in the search.
     // if the item is found, add it to the array.
-    $(".student-list li:contains("+ $searchText+")").each(function() {
-        $counter = $(this).index();
+    $(".student-list .student-details:contains("+ $searchText+")").each(function() {
+        $counter = $(this).index(".student-details");
         $foundStudentsArray.push($counter);
         console.log($counter);
     });
@@ -165,6 +168,7 @@ $(".search-button").click(function() {
     // added to the array.
     $pages = Math.ceil($foundStudentsArray.length / 10);
     paginateSearch($(".pagination .active").text());
+    pageCreate();
 });
 
 // Triggers the click function when the user lifts up the key
