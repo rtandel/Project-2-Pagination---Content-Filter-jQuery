@@ -66,11 +66,8 @@ function pageCreate() {
   $(".pagination a").click(function() {
     $(".pagination a").removeClass("active");
     $(this).addClass("active");
-    console.log(this);
     $item = $(this);
-    console.log($pages);
     var $selected = Number($(this).text());
-    console.log($selected)
     if ($searchText === "") {
       paginateInitial($selected);
     } else {
@@ -94,7 +91,6 @@ function paginateInitial(x) {
       if ($(".pagination .active").text() === ""+$page+"") {
         hideAll();
         for (var i = $min; i <= $currentMax; i++) {
-          console.log($min);
             $('.student-item').eq(i).fadeIn("fast", function() {
                 // finished
             });
@@ -135,7 +131,6 @@ function paginateSearch(y) {
       });
     }
   }
-
 }
 
 // Append the search div, search box, and button.
