@@ -141,10 +141,17 @@ $(".page-header").append("<div class=\"student-search\">" +
 var $searchText;
 var $searchChange = $(".student-search input");
 
+// Makes the contains method case insensitive.
+jQuery.expr[":"].contains = jQuery.expr.createPseudo(function(arg) {
+    return function( elem ) {
+        return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+    };
+});
+
 // Function called when the search button is clicked.
 $(".search-button").click(function() {
   $foundStudentsArray = [];
-  $searchText = $(".student-search input").val().toLowerCase();
+  $searchText = $(".student-search input").val();
   // If the search box is empty, reset.
   if ($searchText === '') {
     showAll();
