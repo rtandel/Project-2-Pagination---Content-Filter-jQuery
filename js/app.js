@@ -138,13 +138,13 @@ $(".page-header").append("<div class=\"student-search\">" +
                           "<input placeholder=\"Search for students...\">" +
                           "<button class=\"search-button\">Search</button></div>");
 // The text input from the user.
-var $searchText = $(".student-search input").val();
+var $searchText;
 var $searchChange = $(".student-search input");
 
 // Function called when the search button is clicked.
 $(".search-button").click(function() {
   $foundStudentsArray = [];
-  $searchText = $(".student-search input").val();
+  $searchText = $(".student-search input").val().toLowerCase();
   // If the search box is empty, reset.
   if ($searchText === '') {
     showAll();
